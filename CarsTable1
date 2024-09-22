@@ -1,0 +1,14 @@
+CREATE TABLE carstable1 (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    brand VARCHAR(50),         -- Autómárka
+    model VARCHAR(50),         -- Modell
+    year INT,                  -- Gyártási év
+    color VARCHAR(20),         -- Szín
+    engine_type VARCHAR(50),   -- Motor típusa (pl. benzin, dízel, hibrid, elektromos)
+    horsepower INT,            -- Teljesítmény (lóerő)
+    fuel_efficiency DECIMAL(4,2),  -- Fogyasztás (l/100 km)
+    transmission VARCHAR(20),  -- Sebességváltó típusa (pl. manuális, automata)
+    doors INT,                 -- Ajtók száma
+    seating_capacity INT,      -- Ülőhelyek száma
+    price DECIMAL(10,2)        -- Ár (EUR)
+);
