@@ -1,0 +1,27 @@
+CREATE TABLE cars (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    brand VARCHAR(50),         -- Autómárka
+    model VARCHAR(50),         -- Modell
+    year INT,                  -- Gyártási év
+    color VARCHAR(20),         -- Szín
+    engine_type VARCHAR(50),   -- Motor típusa (pl. benzin, dízel, hibrid, elektromos)
+    horsepower INT,            -- Teljesítmény (lóerő)
+    fuel_efficiency DECIMAL(4,2),  -- Fogyasztás (l/100 km)
+    transmission VARCHAR(20),  -- Sebességváltó típusa (pl. manuális, automata)
+    doors INT,                 -- Ajtók száma
+    seating_capacity INT,      -- Ülőhelyek száma
+    price DECIMAL(10,2)        -- Ár (EUR)
+);
+
+INSERT INTO cars (brand, model, year, color, engine_type, horsepower, fuel_efficiency, transmission, doors, seating_capacity, price)
+VALUES
+('Toyota', 'Corolla', 2022, 'White', 'Hybrid', 121, 4.5, 'Automatic', 4, 5, 22000),
+('Honda', 'Civic', 2021, 'Black', 'Gasoline', 158, 6.8, 'Manual', 4, 5, 21000),
+('Ford', 'Focus', 2020, 'Blue', 'Diesel', 150, 5.1, 'Automatic', 4, 5, 23000),
+('BMW', '3 Series', 2019, 'Red', 'Gasoline', 255, 7.4, 'Automatic', 4, 5, 35000),
+('Mercedes', 'C-Class', 2020, 'Silver', 'Diesel', 194, 5.4, 'Automatic', 4, 5, 37000),
+('Audi', 'A4', 2022, 'Gray', 'Gasoline', 201, 6.1, 'Automatic', 4, 5, 34000),
+('Volkswagen', 'Golf', 2021, 'Green', 'Gasoline', 147, 5.7, 'Manual', 4, 5, 24000),
+('Tesla', 'Model 3', 2022, 'White', 'Electric', 283, 0, 'Automatic', 4, 5, 50000),
+('Nissan', 'Leaf', 2021, 'Blue', 'Electric', 147, 0, 'Automatic', 4, 5, 32000),
+('Hyundai', 'Elantra', 2020, 'Red', 'Gasoline', 147, 6.4, 'Manual', 4, 5, 19000);
