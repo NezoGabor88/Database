@@ -1,0 +1,93 @@
+CREATE DATABASE factory;
+USE factory;
+
+
+
+CREATE TABLE cikkek (
+    cikk_id INT AUTO_INCREMENT PRIMARY KEY,
+    nev VARCHAR(100) NOT NULL,
+    ar DECIMAL(10, 2) NOT NULL,
+    keszlet INT NOT NULL
+);
+
+CREATE TABLE megrendelesek (
+    megrendeles_id INT AUTO_INCREMENT PRIMARY KEY,
+    cikk_id INT NOT NULL,
+    darab INT NOT NULL,
+    rendeles_datum DATE NOT NULL,
+    FOREIGN KEY (cikk_id) REFERENCES cikkek(cikk_id)
+);
+
+
+
+INSERT INTO cikkek (nev, ar, keszlet) VALUES
+('Csavar', 50.00, 100),
+('Alátét', 10.00, 500),
+('Anyacsavar', 30.00, 200);
+
+
+
+INSERT INTO megrendelesek (cikk_id, darab, rendeles_datum) VALUES
+(1, 10, '2024-09-23'),
+(2, 50, '2024-09-24'),
+(3, 20, '2024-09-24');
+
+
+
+SELECT * FROM cikkek;
+
+
+SELECT m.megrendeles_id, c.nev, m.darab, m.rendeles_datum
+FROM megrendelesek m
+JOIN cikkek c ON m.cikk_id = c.cikk_id;
+
+UPDATE cikkek
+SET keszlet = keszlet - 10
+WHERE cikk_id = 1;
+
+INSERT INTO cikkek (nev, ar, keszlet) VALUES
+('Olajszűrő', 3500.00, 120),
+('Levegőszűrő', 2500.00, 150),
+('Féktárcsa', 12000.00, 80),
+('Fékbetét', 8000.00, 200),
+('Gyújtógyertya', 1500.00, 300),
+('Vezérműszíj', 4500.00, 50),
+('Üzemanyagszűrő', 3200.00, 90),
+('Akkumulátor', 40000.00, 40),
+('Sebességváltó olaj', 8000.00, 60),
+('Hűtőfolyadék', 3000.00, 100);
+
+
+INSERT INTO megrendelesek (cikk_id, darab, rendeles_datum) VALUES
+(1, 5, '2024-09-20'),   -- Olajszűrő
+(2, 10, '2024-09-21'),  -- Levegőszűrő
+(3, 4, '2024-09-22'),   -- Féktárcsa
+(4, 20, '2024-09-22'),  -- Fékbetét
+(5, 30, '2024-09-23'),  -- Gyújtógyertya
+(6, 7, '2024-09-23'),   -- Vezérműszíj
+(7, 15, '2024-09-24'),  -- Üzemanyagszűrő
+(8, 2, '2024-09-24'),   -- Akkumulátor
+(9, 6, '2024-09-25'),   -- Sebességváltó olaj
+(10, 12, '2024-09-25'); -- Hűtőfolyadék
+
+ALTER TABLE megrendelesek ADD osszeg DECIMAL(10, 2);
+
+
+INSERT INTO megrendelesek (cikk_id, darab, rendeles_datum, osszeg)
+SELECT 1, 5, '2024-09-26', 5 * ar FROM cikkek WHERE cikk_id = 1;   -- Olajszűrő
+
+INSERT INTO megrendelesek (cikk_id, darab, rendeles_datum, osszeg)
+SELECT 2, 10, '2024-09-26', 10 * ar FROM cikkek WHERE cikk_id = 2;  -- Levegőszűrő
+
+INSERT INTO megrendelesek (cikk_id, darab, rendeles_datum, osszeg)
+SELECT 3, 3, '2024-09-26', 3 * ar FROM cikkek WHERE cikk_id = 3;   -- Féktárcsa
+
+
+CREATE TRIGGER frissit_osszeg
+BEFORE INSERT ON megrendelesek
+FOR EACH ROW
+BEGIN
+    DECLARE ar DECIMAL(10, 2);
+    SELECT cikkek.ar INTO ar FROM cikkek WHERE cikk_id = NEW.cikk_id;
+    SET NEW.osszeg = NEW.darab * ar;
+END;
